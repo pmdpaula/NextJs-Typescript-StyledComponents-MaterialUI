@@ -11,6 +11,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -58,5 +59,6 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     indent: 'off',
     '@typescript-eslint/indent': ['error', 2], // 2 spaces === 1 tab
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

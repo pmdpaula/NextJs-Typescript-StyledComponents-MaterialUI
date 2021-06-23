@@ -40,7 +40,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
 
-    // 'import/prefer-default-export': 'off',
+    'import/prefer-default-export': 'off',
 
     // No need to import React when using Next.js
     'react/react-in-jsx-scope': 'off',

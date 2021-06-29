@@ -12,7 +12,7 @@ const sizes = {
 interface sizeProps {
   size?: 'small' | 'large';
 }
-// eslint-disable-next-line react/prop-types
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const Logo = ({ size = 'small' }: sizeProps): JSX.Element => {
   const { width, height } = sizes[size];

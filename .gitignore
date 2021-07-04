@@ -34,4 +34,4 @@ yarn-error.log*
 .vercel
 README copy.md
 Dockerfile
-src/components/wrappers/WebsitePage/context/index copy.js
+src/components/dashboard

@@ -1,5 +1,5 @@
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
+import Drawer, { DrawerProps } from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -42,10 +42,16 @@ const useStyles = makeStyles((theme) => ({
 
 interface AxDrawerProps {
   open: boolean;
-  handleDrawerClose: any;
+  toggleOpenDrawer: () => void;
+  onClose: any;
+  variant: DrawerProps['variant'];
 }
 
-const AxDrawer = ({ open, handleDrawerClose }: AxDrawerProps): JSX.Element => {
+const AxDrawer = ({
+  open,
+  toggleOpenDrawer,
+  ...props
+}: AxDrawerProps): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -55,9 +61,10 @@ const AxDrawer = ({ open, handleDrawerClose }: AxDrawerProps): JSX.Element => {
       classes={{
         paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
       }}
+      {...props}
     >
       <div className={classes.toolbarIcon}>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={toggleOpenDrawer}>
           <ChevronLeftIcon />
         </IconButton>
       </div>

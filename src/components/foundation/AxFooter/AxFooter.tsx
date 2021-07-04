@@ -1,13 +1,12 @@
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { ReactNode } from 'react';
-import styled from 'styled-components';
+import { ReactNode, useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
 const AxFooterWrapper = styled(Grid)`
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
   margin-bottom: 1rem;
 `;
 
@@ -16,8 +15,7 @@ const AxFooterBox = styled(Paper)`
   border-radius: 14px;
   height: 1.8rem;
   padding: 0.3rem;
-  width: 80%;
-  margin: auto;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,15 +25,21 @@ interface AxFooterProps {
   content: ReactNode;
 }
 
-const AxFooter = ({ content }: AxFooterProps): JSX.Element => (
-  <>
+const AxFooter = ({ content }: AxFooterProps): JSX.Element => {
+  const theme = useContext(ThemeContext);
+
+  return (
     <AxFooterWrapper>
       <AxFooterBox elevation={3}>
-        <Typography color="textSecondary" variant="caption">
+        <Typography
+          variant="caption"
+          style={{ color: theme.palette.secondary.contrastText }}
+        >
           {content}
         </Typography>
       </AxFooterBox>
     </AxFooterWrapper>
-  </>
-);
+  );
+};
+
 export default AxFooter;

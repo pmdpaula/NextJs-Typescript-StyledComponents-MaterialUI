@@ -11,6 +11,7 @@ const useStyles = makeStyles(
     createStyles({
       appMenu: {
         width: '100%',
+        marginTop: '0.8rem',
       },
     }),
   // eslint-disable-next-line function-paren-newline

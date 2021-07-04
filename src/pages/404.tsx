@@ -1,20 +1,30 @@
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import styled from 'styled-components';
 
 import websitePageHOC from '../components/wrappers/WebsitePage/hoc';
 
+const Page404Wrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  background-color: ${({ theme }) => theme.palette.error.main};
+  margin-top: 2rem;
+`;
+
 const Page404 = (): JSX.Element => (
-  <Paper elevation={3}>
-    <Grid container justify="center" alignItems="center">
-      <Grid item>
-        <Typography variant="h1">404</Typography>
-      </Grid>
-      <Grid item>
-        <Typography>Deu Ruim. Não achamamos a página!</Typography>
-      </Grid>
-    </Grid>
-  </Paper>
+  <Page404Wrapper boxShadow={3} borderRadius={40} boxSizing={50}>
+    {/* <Paper elevation={3} style={{ width: '90%' }}> */}
+    <Typography variant="h1" style={{ fontWeight: 800 }}>
+      404
+    </Typography>
+    <Typography variant="h5" align="center">
+      Parece que página procurada não existe!
+    </Typography>
+    {/* </Paper> */}
+  </Page404Wrapper>
 );
 
 export default websitePageHOC(Page404, {

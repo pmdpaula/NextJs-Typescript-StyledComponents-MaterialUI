@@ -51,9 +51,6 @@ const AppMenuItemComponent: React.FC<AppMenuItemComponentProps> = (props) => {
           // eslint-disable-next-line react/no-children-prop
           children={children}
           disabled={disabled}
-          // component="a"
-          // component={<Link {...props} href={link} />}
-          // to={link}
         />
       </StyledLink>
     </NextLink>

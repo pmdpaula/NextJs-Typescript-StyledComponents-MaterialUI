@@ -1,6 +1,8 @@
 import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
+import { overridesTheme } from '.';
+
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
     tertiary: Palette['primary'];
@@ -12,17 +14,18 @@ declare module '@material-ui/core/styles/createPalette' {
 
 // Create a theme instance.
 const themeDark = createMuiTheme({
+  ...overridesTheme,
   palette: {
     type: 'dark',
     primary: {
-      main: '#42929D',
+      main: '#01426A',
+      contrastText: '#ddd',
     },
     secondary: {
       main: '#007b5f',
     },
     tertiary: {
-      main: '#01426A',
-      contrastText: '#ddd',
+      main: '#42929D',
     },
     error: {
       main: red.A400,

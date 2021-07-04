@@ -1,6 +1,8 @@
 import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
+import { overridesTheme } from '.';
+
 // declare module '@material-ui/core/styles/createPalette' {
 //   interface Palette {
 //     tertiary: Palette['primary'];
@@ -12,6 +14,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
 const themeLight = createMuiTheme({
+  ...overridesTheme,
   palette: {
     type: 'light',
     primary: {

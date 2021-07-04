@@ -31,7 +31,7 @@ const useStyles = makeStyles(
     createStyles({
       menuItem: {},
       menuItemIcon: {
-        color: theme.palette.primary.main,
+        color: theme.palette.tertiary.main,
         fontWeight: 600,
       },
       selected: () => ({

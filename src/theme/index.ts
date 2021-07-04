@@ -1,3 +1,5 @@
+import { createMuiTheme } from '@material-ui/core/styles';
+
 export type breakpointsType = {
   [key: string]: number;
 };
@@ -22,3 +24,17 @@ export const baseStyles = {
       '0px 10px 13px -7px rgba(0, 0, 0, 1), 5px 5px 37px 19px rgba(0,0,0,0);',
   },
 } as const;
+
+export const overridesTheme = createMuiTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          // WebkitFontSmoothing: 'auto',
+          height: '100%',
+          fontFamily: "'Roboto', sans-serif",
+        },
+      },
+    },
+  },
+});

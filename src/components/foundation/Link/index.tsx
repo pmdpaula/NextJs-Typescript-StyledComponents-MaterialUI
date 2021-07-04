@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const StyledLink = styled(MuiLink)`
-  /* color: inherit; */
+  color: inherit;
   text-decoration: none;
   opacity: 1;
   &:hover,

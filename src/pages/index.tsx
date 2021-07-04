@@ -1,43 +1,38 @@
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 // import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import styled from 'styled-components';
+import Typography from '@material-ui/core/Typography';
+import Image from 'next/image';
+import { useContext } from 'react';
 
-import Chart from '../components/dashboard/Chart';
-import Deposits from '../components/dashboard/Deposits';
-import Orders from '../components/dashboard/Orders';
-import Link from '../components/foundation/Link';
+import { WebsitePageContext } from '../components/wrappers/WebsitePage/context';
 import websitePageHOC from '../components/wrappers/WebsitePage/hoc/index';
 
-const Title = styled.h1`
-  color: red;
-  font-size: 50px;
-`;
-
 function Home(): JSX.Element {
+  const websitePageContext = useContext(WebsitePageContext);
+
+  const logo = websitePageContext.isDark
+    ? '/AxBladeSoftware_logo_nome_light.svg'
+    : '/AxBladeSoftware_logo_nome_dark.svg';
+
   return (
     <>
-      <Title>My page</Title>
-      <Link href="/materialui" color="secondary">
-        Meu link
-      </Link>
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper>
-          <Chart />
-        </Paper>
-      </Grid>
-      {/* Recent Deposits */}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper>
-          <Deposits />
-        </Paper>
-      </Grid>
-      {/* Recent Orders */}
-      <Grid item xs={12}>
-        <Paper>
-          <Orders />
-        </Paper>
-      </Grid>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Grid>
+          <Image src={logo} width={400} height={200} />
+        </Grid>
+        <Grid>
+          <Typography
+            component="h1"
+            variant="h3"
+            color="inherit"
+            align="center"
+            style={{ fontWeight: 800 }}
+          >
+            AxeBlade Software
+          </Typography>
+        </Grid>
+      </Box>
     </>
   );
 }

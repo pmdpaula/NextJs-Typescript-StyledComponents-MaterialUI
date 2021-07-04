@@ -1,24 +1,14 @@
-/* eslint-disable no-unused-vars */
-import { Switch } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
-import Box from '@material-ui/core/Box';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-// import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import clsx from 'clsx';
-import Image from 'next/image';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import globalDefinitions from '../../../config/globalDefinitions';
+import AxAppBar from '../../foundation/AxAppBar/AxAppBar';
 import AxDrawer from '../../foundation/AxDrawer/AxDrawer';
 import AxFooter from '../../foundation/AxFooter/AxFooter';
 import SEO from '../../foundation/SEO';
@@ -74,8 +64,10 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
     overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
   },
   // container: {
   //   paddingTop: theme.spacing(4),
@@ -101,35 +93,39 @@ export default function WebsitePageWrapper({
   const websitePageContext = useContext(WebsitePageContext);
   const theme = useContext(ThemeContext);
 
-  // const [isDark, setIsDark] = useState<boolean>(
-  //   websitePageContext.isDark,
-  // );
   const [isDark, setIsDark] = useState<boolean | undefined>();
-  const [open, setOpen] = useState<boolean>(true);
   const isDrawerCloseble = !!useMediaQuery(theme.breakpoints.down('md')); // in small screens drawer is closable, in big is fixed
+
+  const [openDrawer, setOpenDrawer] = useState<boolean>(!isDrawerCloseble);
+  const classes = useStyles();
 
   const toggleTheme = (event: any) => {
     setIsDark(event.target.checked);
     websitePageContext.setIsDark(event.target.checked);
   };
 
-  const classes = useStyles();
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const toggleOpenDrawer = () => {
+    setOpenDrawer(isDrawerCloseble ? !openDrawer : true);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // eslint-disable-next-line operator-linebreak
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        // eslint-disable-next-line prettier/prettier
+        event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setOpenDrawer(isDrawerCloseble ? open : true);
+    };
 
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  // const [theme, setTheme] = useState(themeDark);
-  // const [isDark, setIsDark] = useState(true);
-
-  // const toggleTheme = (event: any) => {
-  //   setIsDark(event.target.checked);
-  // };
+  useEffect(() => {
+    setOpenDrawer(!isDrawerCloseble);
+  }, [isDrawerCloseble]);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -139,7 +135,8 @@ export default function WebsitePageWrapper({
 
     setIsDark(initialColorValue === 'dark');
     websitePageContext.setIsDark(initialColorValue === 'dark');
-  }, [websitePageContext]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (isDark !== undefined) {
@@ -157,15 +154,6 @@ export default function WebsitePageWrapper({
     }
   }, [isDark, websitePageContext]);
 
-  // const toggleTheme = () => {
-  //   setTheme(theme.palette.type === 'light' ? themeDark : themeLight);
-  //   console.log(`theme.palette.type: ${theme.palette.type}`);
-  //   setCookie(null, 'themeType', theme.palette.type, {
-  //     maxAge: 1000 * 24 * 60 * 60,
-  //     path: '/',
-  //   });
-  // };
-
   // setCookie(null, 'themeType', theme.palette.type, {
   //   maxAge: 1000 * 24 * 60 * 60,
   //   path: '/',
@@ -181,70 +169,43 @@ export default function WebsitePageWrapper({
   //   }
   // }, []);
 
-  // footerProps abaixo é apenas para parar de alarmar o eslint sobre unused var
   return (
     <>
       <SEO {...seoProps} />
 
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          className={clsx(
-            classes.appBar,
-            open && isDrawerCloseble && classes.appBarShift,
-          )}
+      <div className={classes.root} key="drawerAnchor">
+        <div>
+          <AxAppBar
+            open={openDrawer}
+            toggleOpenDrawer={toggleOpenDrawer}
+            isDrawerCloseble={isDrawerCloseble}
+            toggleTheme={toggleTheme}
+          />
+        </div>
+        <AxDrawer
+          open={openDrawer}
+          toggleOpenDrawer={toggleOpenDrawer}
+          onClose={toggleDrawer(false)}
+          variant={isDrawerCloseble ? 'temporary' : 'permanent'}
+        />
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        <main
+          className={classes.content}
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
         >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden,
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Box className={classes.title}>
-              <Image
-                src="/AxBladeSoftware_logo_nome_dark.svg"
-                width={160}
-                height={40}
-              />
-              {/* <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              AxeBlade Software
-            </Typography> */}
-            </Box>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <Switch
-              checked={websitePageContext.isDark}
-              onChange={toggleTheme}
-            />
-          </Toolbar>
-        </AppBar>
-        <AxDrawer open={open} handleDrawerClose={handleDrawerClose} />
-        <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg">
             <Grid>
               {/* Page content */}
               {children}
             </Grid>
-            {footerProps && <AxFooter content={footerProps.content} />}
           </Container>
+          {footerProps ? (
+            <Container style={{ marginTop: 'auto' }}>
+              <AxFooter content={footerProps.content} />
+            </Container>
+          ) : null}
         </main>
       </div>
     </>

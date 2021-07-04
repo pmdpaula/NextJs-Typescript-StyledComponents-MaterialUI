@@ -33,3 +33,5 @@ yarn-error.log*
 # vercel
 .vercel
 README copy.md
+Dockerfile
+src/components/wrappers/WebsitePage/context/index copy.js

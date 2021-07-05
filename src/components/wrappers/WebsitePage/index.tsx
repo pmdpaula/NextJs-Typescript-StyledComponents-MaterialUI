@@ -173,41 +173,45 @@ export default function WebsitePageWrapper({
     <>
       <SEO {...seoProps} />
 
-      <div className={classes.root} key="drawerAnchor">
-        <div>
-          <AxAppBar
+      {seoProps?.headTitle !== 'Login' ? (
+        <div className={classes.root} key="drawerAnchor">
+          <div>
+            <AxAppBar
+              open={openDrawer}
+              toggleOpenDrawer={toggleOpenDrawer}
+              isDrawerCloseble={isDrawerCloseble}
+              toggleTheme={toggleTheme}
+            />
+          </div>
+          <AxDrawer
             open={openDrawer}
             toggleOpenDrawer={toggleOpenDrawer}
-            isDrawerCloseble={isDrawerCloseble}
-            toggleTheme={toggleTheme}
+            onClose={toggleDrawer(false)}
+            variant={isDrawerCloseble ? 'temporary' : 'permanent'}
           />
-        </div>
-        <AxDrawer
-          open={openDrawer}
-          toggleOpenDrawer={toggleOpenDrawer}
-          onClose={toggleDrawer(false)}
-          variant={isDrawerCloseble ? 'temporary' : 'permanent'}
-        />
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-        <main
-          className={classes.content}
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg">
-            <Grid>
-              {/* Page content */}
-              {children}
-            </Grid>
-          </Container>
-          {footerProps ? (
-            <Container style={{ marginTop: 'auto' }}>
-              <AxFooter content={footerProps.content} />
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+          <main
+            className={classes.content}
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+          >
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg">
+              <Grid>
+                {/* Page content */}
+                {children}
+              </Grid>
             </Container>
-          ) : null}
-        </main>
-      </div>
+            {footerProps ? (
+              <Container style={{ marginTop: 'auto' }}>
+                <AxFooter content={footerProps.content} />
+              </Container>
+            ) : null}
+          </main>
+        </div>
+      ) : (
+        <>{children}</>
+      )}
     </>
   );
 }

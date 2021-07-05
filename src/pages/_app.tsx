@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import './app/login.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';

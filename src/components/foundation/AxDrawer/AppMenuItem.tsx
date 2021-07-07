@@ -62,6 +62,7 @@ const AxAppMenuItemComponent = styled(AppMenuItemComponent)``;
 
 const AppMenuItem: React.FC<AppMenuItemProps> = ({ dense, ...props }) => {
   const { name, Icon, link, disabled, items = [] } = props;
+  // eslint-disable-next-line prettier/prettier
   const theme = useContext(ThemeContext);
   const classes = useStyles(theme);
 

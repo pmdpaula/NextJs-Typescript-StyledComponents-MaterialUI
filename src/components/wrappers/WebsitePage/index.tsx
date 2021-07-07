@@ -94,6 +94,7 @@ export default function WebsitePageWrapper({
   const theme = useContext(ThemeContext);
 
   const [isDark, setIsDark] = useState<boolean | undefined>();
+
   const isDrawerCloseble = !!useMediaQuery(theme.breakpoints.down('md')); // in small screens drawer is closable, in big is fixed
 
   const [openDrawer, setOpenDrawer] = useState<boolean>(!isDrawerCloseble);

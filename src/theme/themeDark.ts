@@ -1,4 +1,3 @@
-import { red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 import { overridesTheme } from '.';
@@ -28,7 +27,7 @@ const themeDark = createMuiTheme({
       main: '#42929D',
     },
     error: {
-      main: red.A400,
+      main: '#610404',
     },
     warning: {
       main: '#FECC17',

@@ -29,7 +29,7 @@ const themeLight = createMuiTheme({
       contrastText: '#ddd',
     },
     error: {
-      main: red.A400,
+      main: red.A100,
     },
     warning: {
       main: '#FECC17',

@@ -34,6 +34,9 @@ export const overridesTheme = createMuiTheme({
           height: '100%',
           fontFamily: "'Roboto', sans-serif",
         },
+        body: {
+          overflowY: 'scroll',
+        },
       },
     },
   },

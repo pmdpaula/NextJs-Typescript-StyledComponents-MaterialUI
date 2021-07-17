@@ -4,10 +4,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useContext, useState } from 'react';
 
-import { WebsitePageContext } from '../../wrappers/WebsitePage/context';
+import { AuthContext } from '../../wrappers/WebsitePage/context/AuthContext';
+import { WebsitePageContext } from '../../wrappers/WebsitePage/context/index';
 import Link from '../Link/index';
 
 interface AppBarRightSmallScreenProps {
@@ -19,6 +21,7 @@ const AppBarRightSmallScreen = ({
   toggleTheme,
 }: AppBarRightSmallScreenProps): JSX.Element => {
   const websitePageContext = useContext(WebsitePageContext);
+  const { signOut } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenuProfile = Boolean(anchorEl);
@@ -82,6 +85,12 @@ const AppBarRightSmallScreen = ({
             />
           </Tooltip>
           Tema
+        </MenuItem>
+        <MenuItem onClick={signOut}>
+          <IconButton color="inherit">
+            <ExitToAppOutlinedIcon />
+          </IconButton>
+          Sair
         </MenuItem>
       </Menu>
     </>

@@ -4,6 +4,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Router from 'next/router';
+import { parseCookies } from 'nookies';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 
@@ -12,7 +14,7 @@ import AxAppBar from '../../foundation/AxAppBar/AxAppBar';
 import AxDrawer from '../../foundation/AxDrawer/AxDrawer';
 import AxFooter from '../../foundation/AxFooter/AxFooter';
 import SEO from '../../foundation/SEO';
-import { WebsitePageContext } from './context';
+import { WebsitePageContext } from './context/index';
 
 interface WebsitePageWrapperProps {
   themeProps: {
@@ -136,6 +138,16 @@ export default function WebsitePageWrapper({
 
     setIsDark(initialColorValue === 'dark');
     websitePageContext.setIsDark(initialColorValue === 'dark');
+    const { 'nextauth.token': token } = parseCookies();
+    // console.log(api.get('/'));
+
+    // console.log('wrapper token', token);
+
+    setTimeout(() => {
+      if (!token) {
+        Router.push('/app/login/');
+      }
+    }, 50);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

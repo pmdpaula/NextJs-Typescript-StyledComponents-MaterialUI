@@ -10,9 +10,11 @@ import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 // import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
 // import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
+import { AuthContext } from '../../components/wrappers/WebsitePage/context/AuthContext';
 import websitePageHOC from '../../components/wrappers/WebsitePage/hoc/index';
 
 const LoginButton = styled(Button)`
@@ -26,17 +28,28 @@ const LoginButton = styled(Button)`
 
 const PageLogin = (): JSX.Element => {
   const [isSignUpMode, setIsSignUpMode] = useState<boolean>(false);
-  // const theme = useContext(ThemeContext);
+  const { register, handleSubmit } = useForm();
+  const { signIn } = useContext(AuthContext);
 
   const toggleSignMode = () => {
     setIsSignUpMode(!isSignUpMode);
+  };
+
+  // TODO verificar tipagem na documentação
+  const handleSingIn = async (data: any) => {
+    await signIn(data);
+    // console.log(data);
   };
 
   return (
     <div className={clsx('container', isSignUpMode && 'sign-up-mode')}>
       <div className="forms-container">
         <div className="signin-signup">
-          <form action="#" className="sign-in-form">
+          <form
+            action="#"
+            className="sign-in-form"
+            onSubmit={handleSubmit(handleSingIn)}
+          >
             <Typography
               variant="h3"
               color="textSecondary"
@@ -45,6 +58,7 @@ const PageLogin = (): JSX.Element => {
               Sign in
             </Typography>
             <TextField
+              {...register('username')}
               variant="outlined"
               label="Usuário"
               name="username"
@@ -58,6 +72,7 @@ const PageLogin = (): JSX.Element => {
               }}
             />
             <TextField
+              {...register('password')}
               variant="outlined"
               label="Senha"
               name="password"
@@ -194,6 +209,8 @@ const PageLogin = (): JSX.Element => {
     </div>
   );
 };
+
+// export default PageLogin;
 
 export default websitePageHOC(PageLogin, {
   pageWrapperProps: {

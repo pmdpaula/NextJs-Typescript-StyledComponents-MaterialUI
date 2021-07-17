@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import { WebsitePageContext } from '../components/wrappers/WebsitePage/context';
+import { WebsitePageContext } from '../components/wrappers/WebsitePage/context/index';
 import websitePageHOC from '../components/wrappers/WebsitePage/hoc/index';
 
 function Home(): JSX.Element {

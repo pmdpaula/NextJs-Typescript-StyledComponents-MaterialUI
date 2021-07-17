@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 
 import WebsitePageWrapper from '..';
-import { WrapperProvider } from '../context';
+import { WrapperProvider } from '../context/index';
 import WebsiteGlobalProvider from '../provider';
 
 export default function websitePageHOC(

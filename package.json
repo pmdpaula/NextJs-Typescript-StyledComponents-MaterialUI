@@ -5,7 +5,6 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "startSSL": "node server/server.js",
     "export": "next build && next export",
     "postinstall": "husky install",
     "lint": "eslint --ignore-path .gitignore .",

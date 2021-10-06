@@ -1,165 +1,37 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Button from '@material-ui/core/Button';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
+// import InputAdornment from '@material-ui/core/InputAdornment';
+// import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import MailOutlineIcon from '@material-ui/icons/MailOutline';
+// import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 // import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone';
 // import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
 import clsx from 'clsx';
-import { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import { useState } from 'react';
 
-import { AuthContext } from '../../components/wrappers/WebsitePage/context/AuthContext';
+import FormSignIn from '../../components/patterns/FormSignIn/FormSignIn';
+import FormSignUp from '../../components/patterns/FormSignUp/FormSignUp';
+// import FormSignIn from '../../components/patterns/FormLogin/index';
+// import { AuthContext } from '../../components/wrappers/WebsitePage/context/AuthContext';
 import websitePageHOC from '../../components/wrappers/WebsitePage/hoc/index';
-
-const LoginButton = styled(Button)`
-  width: 15.2rem;
-  height: 3rem;
-  border-radius: 49px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 10px 0;
-`;
 
 const PageLogin = (): JSX.Element => {
   const [isSignUpMode, setIsSignUpMode] = useState<boolean>(false);
-  const { register, handleSubmit } = useForm();
-  const { signIn } = useContext(AuthContext);
 
   const toggleSignMode = () => {
     setIsSignUpMode(!isSignUpMode);
-  };
-
-  // TODO verificar tipagem na documentação
-  const handleSingIn = async (data: any) => {
-    await signIn(data);
-    // console.log(data);
   };
 
   return (
     <div className={clsx('container', isSignUpMode && 'sign-up-mode')}>
       <div className="forms-container">
         <div className="signin-signup">
-          <form
-            action="#"
-            className="sign-in-form"
-            onSubmit={handleSubmit(handleSingIn)}
-          >
-            <Typography
-              variant="h3"
-              color="textSecondary"
-              style={{ marginBottom: '1rem' }}
-            >
-              Sign in
-            </Typography>
-            <TextField
-              {...register('username')}
-              variant="outlined"
-              label="Usuário"
-              name="username"
-              style={{ marginBottom: '1rem' }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonOutlineIcon color="disabled" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              {...register('password')}
-              variant="outlined"
-              label="Senha"
-              name="password"
-              style={{ marginBottom: '1rem' }}
-              type="password"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon color="disabled" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <LoginButton
-              variant="contained"
-              color="primary"
-              type="submit"
-              value="Login"
-            >
-              Login
-            </LoginButton>
-          </form>
+          <FormSignIn />
 
-          <form action="#" className="sign-up-form">
-            <Typography
-              variant="h3"
-              color="textSecondary"
-              style={{ marginBottom: '1rem' }}
-            >
-              Sign up
-            </Typography>
-            <TextField
-              variant="outlined"
-              // className={classes.margin}
-              // id="username"
-              name="username"
-              label="Usuário"
-              style={{ marginBottom: '1rem' }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonOutlineIcon color="disabled" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              variant="outlined"
-              // id="email"
-              name="email"
-              label="E-mail"
-              style={{ marginBottom: '1rem' }}
-              type="email"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MailOutlineIcon color="disabled" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              variant="outlined"
-              // className={classes.margin}
-              // id="password"
-              name="password"
-              label="Senha"
-              style={{ marginBottom: '1rem' }}
-              type="password"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonOutlineIcon color="disabled" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <LoginButton
-              variant="contained"
-              color="primary"
-              type="submit"
-              value="Login"
-            >
-              Sign Up
-            </LoginButton>
-          </form>
+          <FormSignUp setIsSignUpMode={setIsSignUpMode} />
         </div>
       </div>
 
@@ -169,6 +41,7 @@ const PageLogin = (): JSX.Element => {
             <Typography variant="h3">Novo aqui?</Typography>
             <Typography variant="body1">Faça seu cadastro</Typography>
             <Button
+              id="singUpButton"
               variant="outlined"
               style={{
                 // borderWidth: 3,
@@ -190,6 +63,7 @@ const PageLogin = (): JSX.Element => {
             <Typography variant="h3">Já é um de nós?</Typography>
             <Typography variant="body1">Faça o login</Typography>
             <Button
+              id="singInButton"
               variant="outlined"
               style={{
                 border: 'solid 3px white',
@@ -219,3 +93,23 @@ export default websitePageHOC(PageLogin, {
     },
   },
 });
+
+// export const getServerSideProps: GetServerSideProps = async (ctx: any) => {
+//   // const apiClient = getAPIClient(ctx);
+//   const { 'nextauth.token': token } = parseCookies(ctx);
+
+//   if (token) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   // await apiClient.get('/users');
+
+//   return {
+//     props: {},
+//   };
+// };

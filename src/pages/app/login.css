@@ -38,12 +38,12 @@ form {
   grid-row: 1 / 2;
 }
 
-form.sign-up-form {
+form.signUpForm {
   opacity: 0;
   z-index: 1;
 }
 
-form.sign-in-form {
+form.signInForm {
   z-index: 2;
 }
 
@@ -234,12 +234,12 @@ form.sign-in-form {
   left: 25%;
 }
 
-.container.sign-up-mode form.sign-up-form {
+.container.sign-up-mode form.signUpForm {
   opacity: 1;
   z-index: 2;
 }
 
-.container.sign-up-mode form.sign-in-form {
+.container.sign-up-mode form.signInForm {
   opacity: 0;
   z-index: 1;
 }

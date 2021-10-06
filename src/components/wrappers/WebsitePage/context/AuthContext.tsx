@@ -1,94 +1,130 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Router from 'next/router';
-import { destroyCookie, parseCookies, setCookie } from 'nookies';
-import {
-  createContext,
-  ReactChild,
-  ReactChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { parseCookies, setCookie } from 'nookies';
+import { createContext, useEffect, useState } from 'react';
 
-import { api } from '../../../../services/api';
-import {
-  recoverUserInformation,
-  signInRequest,
-} from '../../../../services/auth';
+import { HttpClient } from '../../../../infra/http/HttpClient';
+import { api } from '../../../../services.RS/api';
+// import {
+//   recoverUserInformation,
+//   signInRequest,
+// } from '../../../../services.RS/auth';
 
-type User = {
-  name: string;
-  username: string;
-  email: string;
-  avatarUrl: string;
+type userRole = {
+  role: {
+    name: string;
+    level: number;
+  };
 };
 
-export type SignInData = {
-  username: string;
+export type UserProps = {
+  email: string;
+  // avatarUrl: string;
+  firstName: string;
+  surname: string;
+  // password: string;
+  // passwordConfirmation: string;
+  // token: string;
+  // roles: [userRole];
+};
+
+export type SignInDataProps = {
+  email: string;
   password: string;
 };
 
 type AuthContextType = {
-  user?: User;
   isAuthenticated: boolean;
+  userData: UserProps | null;
+  userRoles: [userRole] | null;
   // eslint-disable-next-line no-unused-vars
-  signIn: (data: SignInData) => Promise<void>;
-  signOut: () => void;
+  signIn: (data: SignInDataProps) => Promise<void>;
 };
 
-interface AuthProviderProps {
-  children: ReactChild | ReactChildren;
-}
-
 export const AuthContext = createContext({} as AuthContextType);
-// export const AuthContext = createContext({} as AuthContextType)
 
-export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
-  const [user, setUser] = useState<User | undefined>();
+export const LOGIN_COOKIE_APP_TOKEN = 'LOGIN_COOKIE_APP_TOKEN';
+export const LOGIN_COOKIE_USER_DATA = 'LOGIN_COOKIE_USER_DATA';
 
-  const isAuthenticated = !!user;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function AuthProvider({ children }: any): JSX.Element {
+  const [userData, setUserData] = useState<UserProps | null>(null);
+  const [userRoles, setUserRoles] = useState<[userRole] | null>(null);
+
+  const isAuthenticated = !!userData;
 
   useEffect(() => {
-    const { 'nextauth.token': token } = parseCookies(); // esta linha é igual as duaas seguintes. Que é desestruturação com renomeação.
-    // const cookies = parseCookies();
-    // const token = cookies['nextauth.token'];
+    // const cookies = parseCookies()
+    // const token = cookies[LOGIN_COOKIE_APP_TOKEN]
+    // as linhas acima resolvem o mesmo que a abaixo.
+    const { LOGIN_COOKIE_APP_TOKEN: token } = parseCookies();
 
-    if (token) {
-      recoverUserInformation().then((response) => {
-        // console.log('response.userData:', response.userData);
-
-        setUser(response.userData);
-      });
-    }
+    // TODO continuar com recuperação de dados de usuários já com token existente
+    // if (token) {
+    //   recoverUserInformation().then((response) => {
+    //     setUser(response.user);
+    //   });
+    // }
   }, []);
 
-  async function signIn({ username, password }: SignInData): Promise<void> {
-    // eslint-disable-next-line no-unused-vars
-    // const { token, userData } = await signInRequest({
-    const { token } = await signInRequest({
-      username,
-      password,
+  async function signIn({ email, password }: SignInDataProps) {
+    await HttpClient(`${process.env.NEXT_PUBLIC_JWT_SERVER}/login`, {
+      method: 'POST',
+      body: {
+        email,
+        password,
+      },
+    }).then((responseConverted) => {
+      const { user, token } = responseConverted;
+      const hasToken = token;
+
+      if (!hasToken) {
+        // throw new Error('Failed to login');
+        throw new Error(responseConverted);
+      }
+
+      // remove _roles, password, __v
+      const userBasicData: UserProps = (({ roles, ...others }) => others)(user);
+
+      const roles: any = [];
+
+      user.roles.forEach((item: { role: userRole }) => {
+        roles.push(item.role);
+      });
+
+      const DAY_IN_SECONDS = 86400;
+      // Salvar o Token
+      setCookie(null, LOGIN_COOKIE_APP_TOKEN, token, {
+        path: '/',
+        maxAge: DAY_IN_SECONDS * 7,
+      });
+
+      console.table(userBasicData);
+      console.table(roles);
+      setUserData(userBasicData);
+      setUserRoles(roles);
+      console.table(userData);
+      console.table(userRoles);
+
+      return {
+        token,
+      };
     });
 
-    setCookie(undefined, 'nextauth.token', token, {
-      maxAge: 60 * 60 * 24, // 24 hour
-    });
+    // setCookie(undefined, 'nextauth.token', token, {
+    //   maxAge: 60 * 60 * 1, // 1 hour
+    // });
 
-    // eslint-disable-next-line dot-notation
-    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    // api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    setUser(user);
-
-    Router.push('/profile');
-  }
-
-  function signOut(): void {
-    destroyCookie(null, 'nextauth.token');
-
-    Router.push('/app/login/');
+    Router.push('/app/profile');
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ userData, userRoles, isAuthenticated, signIn }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}

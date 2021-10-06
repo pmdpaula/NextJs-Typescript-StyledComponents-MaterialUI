@@ -16,7 +16,7 @@ import Image from 'next/image';
 import { useContext } from 'react';
 
 import globalDefinitions from '../../../config/globalDefinitions';
-import { AuthContext } from '../../wrappers/WebsitePage/context/AuthContext';
+// import { AuthContext } from '../../wrappers/WebsitePage/context/AuthContext';
 import { WebsitePageContext } from '../../wrappers/WebsitePage/context/index';
 import Link from '../Link';
 import AppBarRightSmallScreen from './AppBarRightSmallScreen';
@@ -89,7 +89,7 @@ const AxAppBar = ({
 }: AxAppBarProps): JSX.Element => {
   const websitePageContext = useContext(WebsitePageContext);
   const classes = useStyles();
-  const { signOut } = useContext(AuthContext);
+  // const { signOut } = useContext(AuthContext);
 
   const logo = websitePageContext.isDark
     ? '/AxBladeSoftware_logo_nome_light.svg'
@@ -156,7 +156,7 @@ const AxAppBar = ({
               />
             </Tooltip>
             <Tooltip title="Sair" arrow placement="bottom">
-              <IconButton color="inherit" onClick={signOut}>
+              <IconButton color="inherit">
                 <ExitToAppOutlinedIcon />
               </IconButton>
             </Tooltip>

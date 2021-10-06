@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components';
 
 import themeDark from '../../../../theme/themeDark';
 import themeLight from '../../../../theme/themeLight';
-import { WebsitePageContext } from '../context';
+import { WebsitePageContext } from '../context/index';
 
 export default function WebsiteGlobalProvider({ children }: any) {
   const websitePageContext = useContext(WebsitePageContext);

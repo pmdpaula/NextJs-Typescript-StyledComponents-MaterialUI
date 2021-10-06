@@ -8,7 +8,7 @@ import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useContext, useState } from 'react';
 
-import { AuthContext } from '../../wrappers/WebsitePage/context/AuthContext';
+// import { AuthContext } from '../../wrappers/WebsitePage/context/AuthContext';
 import { WebsitePageContext } from '../../wrappers/WebsitePage/context/index';
 import Link from '../Link/index';
 
@@ -21,7 +21,7 @@ const AppBarRightSmallScreen = ({
   toggleTheme,
 }: AppBarRightSmallScreenProps): JSX.Element => {
   const websitePageContext = useContext(WebsitePageContext);
-  const { signOut } = useContext(AuthContext);
+  // const { signOut } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenuProfile = Boolean(anchorEl);
@@ -86,7 +86,7 @@ const AppBarRightSmallScreen = ({
           </Tooltip>
           Tema
         </MenuItem>
-        <MenuItem onClick={signOut}>
+        <MenuItem>
           <IconButton color="inherit">
             <ExitToAppOutlinedIcon />
           </IconButton>

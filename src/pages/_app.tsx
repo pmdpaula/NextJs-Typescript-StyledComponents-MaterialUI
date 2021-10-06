@@ -3,6 +3,7 @@ import './app/login.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+// import { Provider } from 'next-auth/client';
 import { useEffect } from 'react';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -29,7 +30,9 @@ export default function App({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+      {/* <Provider session={pageProps.session}> */}
       <Component {...pageProps} />
+      {/* </Provider> */}
     </>
   );
 }

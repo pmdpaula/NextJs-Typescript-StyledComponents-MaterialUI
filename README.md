@@ -21,6 +21,14 @@ Este modelo usa:
 A biblioteca de componentes utilizada foi a Material UI (https://material-ui.com).
 Também foi utilizado o styled-components para melhor estilização de componentes.
 
+## Testes
+
+### Teste de integração
+
+Uso do cypress para testes de UI/UX
+
+_$> yarn add cypress eslint-plugin-cypress -D_
+
 ## Responsáveis
 
 - Pedro Machado de Paula https://github.com/pmdpaula

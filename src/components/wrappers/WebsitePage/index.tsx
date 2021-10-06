@@ -138,16 +138,16 @@ export default function WebsitePageWrapper({
 
     setIsDark(initialColorValue === 'dark');
     websitePageContext.setIsDark(initialColorValue === 'dark');
-    const { 'nextauth.token': token } = parseCookies();
     // console.log(api.get('/'));
 
+    // const { 'nextauth.token': token } = parseCookies();
     // console.log('wrapper token', token);
+    // setTimeout(() => {
+    //   if (!token) {
+    //     Router.push('/app/login/');
+    //   }
+    // }, 100);
 
-    setTimeout(() => {
-      if (!token) {
-        Router.push('/app/login/');
-      }
-    }, 50);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

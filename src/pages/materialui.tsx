@@ -13,7 +13,7 @@ import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import websitePageHOC from '../components/wrappers/WebsitePage/hoc/index';
-import { useWidth } from '../hooks/useWidth';
+import { useWidth } from '../hooks/usefullHooks';
 import { Logo } from '../theme/Logo';
 
 // https://material-ui.com/pt/system/basics/#css-property
